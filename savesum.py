@@ -56,7 +56,7 @@ def savesum():
     #             'date': value1[2],
     #             'time': value1[3],
     #         }
-    #     a.append(b)
+    #     a.append(b)sadasdasdasd
     
     # a=json.dumps(a, ensure_ascii=False, indent="\t")
 
