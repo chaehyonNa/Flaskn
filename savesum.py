@@ -25,15 +25,17 @@ def savesum():
     # value1 = cursor.fetchone()
     date = datetime.today().strftime("%Y/%m/%d")
     kacl=500
+    # print(value1[0]==date)
     # print((value1[1]))
     # print(date)
 
     if value1[0]==date:
         sql = "UPDATE imp SET kacl = %s WHERE date = %s "
-        cursor.execute(sql,(kacl,value1[0]))
+        cursor.execute(sql,(value1[1]+kacl,value1[0]))
 
     elif value1[0]!=date:
-        
+        sql = "INSERT INTO (kacl, date) VALUES (%s, %s)"
+        cursor.execute(sql,(kacl,date))
 
 
     # print(value1[2])

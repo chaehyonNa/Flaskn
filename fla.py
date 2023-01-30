@@ -3,13 +3,15 @@ import io
 import os
 from PIL import Image
 import datetime
-import save9
 import saveex
+import save9
+import savesum
 import json
 import jsonify
 import torch
 from flask import Flask, render_template, request, redirect, send_file
 from flask_cors import CORS
+from koreanLabel import change
 
 app = Flask(__name__)
 cors = CORS(app, resources={r"/*": {"origins": "*"}})
@@ -22,9 +24,40 @@ def web():
 
 @app.route('/predict', methods=['POST'])
 def predict():
-    if request.method == "POST":
-        b=saveex.saveex()
-    return b
+   if request.method == "POST":
+      # if "file" not in request.files:
+      #     return redirect(request.url)
+      file = request.files["file"]
+      print(file)
+      # if not file:
+      #     return
+      img_bytes = file.read()
+      img = Image.open(io.BytesIO(img_bytes))
+      results = model(img)
+        
+      lst = str(results).split()[3:-15]
+
+      for i in range(len(lst)):
+         lst[i] = lst[i].strip(',')
+         if(i%2==0):
+            if(int(lst[i])>1):
+               lst[i+1] = lst[i+1][:-2]
+      print(list)
+      amounts = lst[0::2]
+      names = lst[1::2]
+      for i in range(len(names)):
+         names[i] = change(names[i])
+      # print(names)
+
+      results.render()  # updates results.imgs with boxes and labels
+      now_time = datetime.datetime.now().strftime(DATETIME_FORMAT)
+      img_savename = f"fla/{now_time}.png"
+      Image.fromarray(results.ims[0]).save(img_savename)
+      a = saveex.saveex(img_savename,names,amounts)
+      b = savesum.saveex(img_savename,names,amounts)
+      # return results
+   return send_file("words01.json")
+   # return a
 
 @app.route('/recent', methods=['POST'])
 def recent():
