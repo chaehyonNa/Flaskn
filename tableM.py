@@ -5,10 +5,14 @@ conn = pymysql.connect(host='localhost', user='root',
 
 cursor = conn.cursor()
 
-sql = ''' CREATE TABLE imp (
+sql = ''' CREATE TABLE impo01 (
+    id  VARCHAR(50) PRIMARY KEY,
+    date VARCHAR(50) ,
+    kacl FLOAT,
+    carbo FLOAT,
+    province FLOAT,
+    protein FLOAT
 
-    date VARCHAR(50) PRIMARY KEY,
-    kacl INT
 )
 '''
 

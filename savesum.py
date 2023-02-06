@@ -11,58 +11,64 @@ from collections import OrderedDict
 from datetime import datetime
 from koreanLabel import change
 
-def savesum():
+
+def savesum(names,amounts):
     db = pymysql.connect(host="localhost",user="root",password="cogus123",charset="utf8")
     cursor = db.cursor()
-    
-    a=[]
-
     cursor.execute('USE project01;')
-    cursor.execute('SELECT * FROM project01.imp ORDER BY date desc LIMIT 1;')
+    a=[]
+    kacl=0
+    carbo=0
+    province=0
+    protein=0
+    for i in range(len(names)):
+        foodSL = names[i]
+        cursor.execute(f'SELECT * FROM food WHERE name="{foodSL}";')
+        value2 = cursor.fetchone()
+        kacl=value2[2]*int(amounts[i])+kacl
+        carbo=value2[3]*int(amounts[i])+carbo
+        province=value2[4]*int(amounts[i])+province
+        protein=+value2[5]*int(amounts[i])+protein
+        # print(kacl)
+        # print(carbo)
+        # print(province)
+        # print(protein)
+
+    cursor.execute('SELECT * FROM project01.impo1 ORDER BY date desc LIMIT 1;')
     value1 = cursor.fetchone()
-    # print(value1[0])
-    # cursor.execute(f'SELECT * FROM imp WHERE date="{value1[0]}";')
-    # value1 = cursor.fetchone()
     date = datetime.today().strftime("%Y/%m/%d")
-    kacl=500
-    # print(value1[0]==date)
-    # print((value1[1]))
-    # print(date)
 
     if value1[0]==date:
-        sql = "UPDATE imp SET kacl = %s WHERE date = %s "
-        cursor.execute(sql,(value1[1]+kacl,value1[0]))
-
+        sql = "UPDATE impo1 SET kacl=%s, carbo=%s, province=%s, protein=%s  WHERE date =%s "
+        cursor.execute(sql, ((value1[1]+kacl), (value1[2]+carbo), (value1[3]+province), (value1[4]+protein), value1[0]))
     elif value1[0]!=date:
-        sql = "INSERT INTO (kacl, date) VALUES (%s, %s)"
-        cursor.execute(sql,(kacl,date))
+        sql = "INSERT INTO impo1 (date, kacl, carbo, province, protein) VALUES (%s, %s, %s, %s, %s)"
+        cursor.execute(sql,(date, kacl, carbo, province, protein))
 
+    sql1 =  "SELECT date FROM project01.impo1 ORDER BY date desc LIMIT 7; "
+    cursor.execute(sql1)
+    num = cursor.fetchall()
+    print(num)
+    a=[]
+    for i in num:
+        cursor.execute(f'SELECT * FROM impo1 WHERE date={i[0]};')
+        value2 = cursor.fetchone()
+        b = {
+                'date': value2[0],
+                'kacl': value2[1],
+                'carbo': value2[2],
+                'province': value2[3],
+                'protein': value2[4]
+            }
+        a.append(b)
 
-    # print(value1[2])
-    # for i in range(100):
-    #     if value1[2].equals(date):
-    #         cursor.execute(f'SELECT * FROM food1 WHERE name="{}";')
-    #         value2 = cursor.fetchone()
-
-    # sql2 =  "SELECT id FROM project01.images02 ORDER BY id desc LIMIT 9; "
-    # cursor.execute(sql2)
-    # num = cursor.fetchall()
-    # print(num)
-    # for i in num:
-        
-    #     cursor.execute(f'SELECT * FROM images02 WHERE id={i[0]};')
-    #     value1 = cursor.fetchone()
-    #     b = {
-    #             'id': value1[0],
-    #             'image_data': value1[1].decode('utf8'),
-    #             'date': value1[2],
-    #             'time': value1[3],
-    #         }
-    #     a.append(b)sadasdasdasd
-    
-    # a=json.dumps(a, ensure_ascii=False, indent="\t")
+    with open('words03.json', 'w', encoding="utf-8") as make_file:
+        a=json.dump(a,make_file, ensure_ascii=False,indent="\t")
 
     db.commit()
     db.close()
     return a
-savesum()
+    
+names=["곤드레밥","김치볶음밥"]
+amounts=["2","1"]
+savesum(names,amounts)

@@ -5,6 +5,7 @@ from PIL import Image
 import datetime
 import saveex
 import save9
+import savesum
 import json
 import jsonify
 import torch
@@ -20,6 +21,7 @@ DATETIME_FORMAT = "%Y-%m-%d_%H-%M-%S-%f"
 @app.route('/')
 def web():
     return "main page"
+
 
 @app.route('/predict', methods=['POST'])
 def predict():
@@ -55,6 +57,12 @@ def predict():
       # return results
    return send_file("words01.json")
    # return a
+
+# @app.route('/graph', methods=['POST'])
+# def recent():
+#    if request.method == "POST":
+#       a=savesum.savesum()
+#    return a
 
 @app.route('/recent', methods=['POST'])
 def recent():

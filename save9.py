@@ -19,7 +19,7 @@ def save9():
     sql2 =  "SELECT id FROM project01.images02 ORDER BY id desc LIMIT 9; "
     cursor.execute(sql2)
     num = cursor.fetchall()
-    print(num)
+    # print(num)
     for i in num:
         
         cursor.execute(f'SELECT * FROM images02 WHERE id={i[0]};')
@@ -32,7 +32,10 @@ def save9():
             }
         a.append(b)
     
-    a=json.dumps(a, ensure_ascii=False, indent="\t")
+    with open('words02.json', 'w', encoding="utf-8") as make_file:
+        a=json.dump(a,make_file, ensure_ascii=False,indent="\t")
+
+    # a=json.dumps(a, ensure_ascii=False, indent="\t")
 
     db.commit()
     db.close()

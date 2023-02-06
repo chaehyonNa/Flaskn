@@ -54,7 +54,7 @@ def predict():
       img_savename = f"fla/{now_time}.png"
       Image.fromarray(results.ims[0]).save(img_savename)
       a = saveex.saveex(img_savename,names,amounts)
-      b = savesum.saveex(img_savename,names,amounts)
+      b = savesum.saveex(names,amounts)
       # return results
    return send_file("words01.json")
    # return a
