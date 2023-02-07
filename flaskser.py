@@ -6,6 +6,8 @@ import datetime
 import saveex
 import save9
 import savesum
+import base64
+from io import BytesIO
 import json
 import jsonify
 import torch
@@ -21,7 +23,6 @@ DATETIME_FORMAT = "%Y-%m-%d_%H-%M-%S-%f"
 @app.route('/')
 def web():
     return "main page"
-
 
 @app.route('/predict', methods=['POST'])
 def predict():
@@ -58,11 +59,30 @@ def predict():
    return send_file("words01.json")
    # return a
 
+@app.route('/save', methods=['POST'])
+def save():
+   print("hi")
+   # file = request.files["file"]
+   # print(file)
+   jfile = request.get_json()
+   # print(jfile)
+
+   image_date1=jfile[0]['image_data']
+   print(image_date1)
+   # print(jfile['image_data'])
+   # a=save.save(img_savename,names,amounts)
+   img = base64.b64decode(image_date1)
+   im = Image.open(BytesIO(img))
+   im.show()
+
+   # Image.open(image_date1)
+   return 
+
 # @app.route('/graph', methods=['POST'])
-# def recent():
+# def gragh():
 #    if request.method == "POST":
 #       a=savesum.savesum()
-#    return a
+#    return send_file("words03.json")
 
 @app.route('/recent', methods=['POST'])
 def recent():

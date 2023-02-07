@@ -37,6 +37,14 @@ def save9():
 
     # a=json.dumps(a, ensure_ascii=False, indent="\t")
 
+    # sql2 =  "SELECT id FROM project01.images02 ORDER BY id desc LIMIT 10; "
+    # cursor.execute(sql2)
+    # num1 = cursor.fetchall()
+    # print(num1)
+    # if len(num1)>9:
+    #     sql="DELETE FROM images02 WHERE id = %s"
+    #     cursor.execute(sql,(num1[10]))
+
     db.commit()
     db.close()
     return a

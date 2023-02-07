@@ -6,7 +6,7 @@ conn = pymysql.connect(host='localhost', user='root',
 cursor = conn.cursor()
 
 sql = ''' CREATE TABLE impo01 (
-    id  VARCHAR(50) PRIMARY KEY,
+    id  int auto_increment PRIMARY KEY,
     date VARCHAR(50) ,
     kacl FLOAT,
     carbo FLOAT,

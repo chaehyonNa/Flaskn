@@ -22,6 +22,7 @@ DATETIME_FORMAT = "%Y-%m-%d_%H-%M-%S-%f"
 def web():
     return "main page"
 
+
 @app.route('/predict', methods=['POST'])
 def predict():
    if request.method == "POST":
@@ -42,7 +43,6 @@ def predict():
          if(i%2==0):
             if(int(lst[i])>1):
                lst[i+1] = lst[i+1][:-2]
-      print(list)
       amounts = lst[0::2]
       names = lst[1::2]
       for i in range(len(names)):
@@ -54,10 +54,15 @@ def predict():
       img_savename = f"fla/{now_time}.png"
       Image.fromarray(results.ims[0]).save(img_savename)
       a = saveex.saveex(img_savename,names,amounts)
-      b = savesum.saveex(names,amounts)
       # return results
    return send_file("words01.json")
    # return a
+
+# @app.route('/graph', methods=['POST'])
+# def recent():
+#    if request.method == "POST":
+#       a=savesum.savesum()
+#    return a
 
 @app.route('/recent', methods=['POST'])
 def recent():
