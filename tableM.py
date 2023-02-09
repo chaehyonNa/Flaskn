@@ -5,11 +5,13 @@ conn = pymysql.connect(host='localhost', user='root',
 
 cursor = conn.cursor()
 
-sql = ''' CREATE TABLE images (
+sql = ''' CREATE TABLE impo (
     id  int auto_increment PRIMARY KEY,
-    image_data MEDIUMBLOB ,
     date VARCHAR(50),
-    time VARCHAR(50)
+    kacl FLOAT,
+    carbo FLOAT,
+    province FLOAT,
+    protein FLOAT
 )
 '''
 

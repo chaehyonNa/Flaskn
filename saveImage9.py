@@ -19,7 +19,6 @@ def saveImage9():
     sql2 =  "SELECT id FROM project01.images ORDER BY id desc LIMIT 9; "
     cursor.execute(sql2)
     num = cursor.fetchall()
-    # print(num)
     for i in num:
         
         cursor.execute(f'SELECT * FROM images WHERE id={i[0]};')
@@ -40,4 +39,4 @@ def saveImage9():
     db.commit()
     db.close()
     return a
-# save9()
+saveImage9()

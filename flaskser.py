@@ -6,7 +6,7 @@ import datetime
 import saveImageData
 import saveImage9
 import saveData
-import savesum
+import saveSum
 import base64
 from io import BytesIO
 import json
@@ -28,7 +28,6 @@ def web():
 def predict():
    if request.method == "POST":
       file = request.files["file"]
-      # print(file)
       img_bytes = file.read()
       img = Image.open(io.BytesIO(img_bytes))
       results = model(img)
@@ -50,7 +49,6 @@ def predict():
       img_savename = f"fla/{now_time}.png"
       Image.fromarray(results.ims[0]).save(img_savename)
       a = saveImageData.saveImageData(img_savename,names,amounts)
-      # return results
    return send_file("saveImageData.json")
 
 @app.route('/save', methods=['POST'])
@@ -65,13 +63,13 @@ def save():
    jfile[0]['image_data']
 
    a=saveData.saveData(image_data1)
-   b=savesum.savesum(names, amounts)
-   return send_file("savefoodim.json")
+   b=saveSum.saveSum(names, amounts)
+   return send_file("saveData.json")
 
 # @app.route('/graph', methods=['POST'])
 # def gragh():
 #    if request.method == "POST":
-#       a=savesum.savesum()
+#       a=saveSum.saveSum()
 #    return send_file("words03.json")
 
 # @app.route('/recent', methods=['POST'])
