@@ -3,8 +3,9 @@ import io
 import os
 from PIL import Image
 import datetime
-import saveex
-import save9
+import saveImageData
+import saveImage9
+import saveData
 import savesum
 import base64
 from io import BytesIO
@@ -17,7 +18,6 @@ from koreanLabel import change
 
 app = Flask(__name__)
 cors = CORS(app, resources={r"/*": {"origins": "*"}})
-
 DATETIME_FORMAT = "%Y-%m-%d_%H-%M-%S-%f"
 
 @app.route('/')
@@ -27,12 +27,8 @@ def web():
 @app.route('/predict', methods=['POST'])
 def predict():
    if request.method == "POST":
-      # if "file" not in request.files:
-      #     return redirect(request.url)
       file = request.files["file"]
-      print(file)
-      # if not file:
-      #     return
+      # print(file)
       img_bytes = file.read()
       img = Image.open(io.BytesIO(img_bytes))
       results = model(img)
@@ -48,35 +44,29 @@ def predict():
       names = lst[1::2]
       for i in range(len(names)):
          names[i] = change(names[i])
-      # print(names)
 
       results.render()  # updates results.imgs with boxes and labels
       now_time = datetime.datetime.now().strftime(DATETIME_FORMAT)
       img_savename = f"fla/{now_time}.png"
       Image.fromarray(results.ims[0]).save(img_savename)
-      a = saveex.saveex(img_savename,names,amounts)
+      a = saveImageData.saveImageData(img_savename,names,amounts)
       # return results
-   return send_file("words01.json")
-   # return a
+   return send_file("saveImageData.json")
 
 @app.route('/save', methods=['POST'])
 def save():
-   print("hi")
-   # file = request.files["file"]
-   # print(file)
    jfile = request.get_json()
-   # print(jfile)
+   names=[]
+   amounts=[]
+   image_data1=jfile[0]['image_data']
+   for i in range(1,len(jfile)):
+      names.append(jfile[i]['name'])
+      amounts.append(jfile[i]['amount'])
+   jfile[0]['image_data']
 
-   image_date1=jfile[0]['image_data']
-   print(image_date1)
-   # print(jfile['image_data'])
-   # a=save.save(img_savename,names,amounts)
-   img = base64.b64decode(image_date1)
-   im = Image.open(BytesIO(img))
-   im.show()
-
-   # Image.open(image_date1)
-   return 
+   a=saveData.saveData(image_data1)
+   b=savesum.savesum(names, amounts)
+   return send_file("savefoodim.json")
 
 # @app.route('/graph', methods=['POST'])
 # def gragh():
@@ -84,11 +74,11 @@ def save():
 #       a=savesum.savesum()
 #    return send_file("words03.json")
 
-@app.route('/recent', methods=['POST'])
-def recent():
-   if request.method == "POST":
-      a=save9.save9()
-   return a
+# @app.route('/recent', methods=['POST'])
+# def recent():
+#    if request.method == "POST":
+#       a=saveImage9.saveImage9()
+#    return a
 
 
 if __name__ == "__main__":

@@ -44,12 +44,11 @@ def savesum(names,amounts):
     sql1 =  "SELECT id FROM project01.impo01 ORDER BY id desc LIMIT 7; "
     cursor.execute(sql1)
     num = cursor.fetchall()
-    # print(num)
     a=[]
+
     for i in num:
         cursor.execute(f'SELECT * FROM impo01 WHERE id={i[0]};')
         value2 = cursor.fetchone()
-        # print(value2)
         b = {
                 'date': value2[1],
                 'kacl': value2[2],
@@ -59,7 +58,7 @@ def savesum(names,amounts):
             }
         a.append(b)
 
-    with open('words03.json', 'w', encoding="utf-8") as make_file:
+    with open('savefoodim.json', 'w', encoding="utf-8") as make_file:
         a=json.dump(a,make_file, ensure_ascii=False,indent="\t")
     
     sql2 =  "SELECT id FROM project01.impo01 ORDER BY id desc LIMIT 8; "
@@ -74,6 +73,6 @@ def savesum(names,amounts):
     db.close()
     return a
     
-names=["곤드레밥","김치볶음밥"]
-amounts=["2","1"]
-savesum(names,amounts)
+# names=["곤드레밥","김치볶음밥"]
+# amounts=["2","1"]
+# savesum(names,amounts)

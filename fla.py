@@ -3,8 +3,8 @@ import io
 import os
 from PIL import Image
 import datetime
-import saveex
-import save9
+import saveImageData
+import saveImage9
 import savesum
 import json
 import jsonify
@@ -53,7 +53,7 @@ def predict():
       now_time = datetime.datetime.now().strftime(DATETIME_FORMAT)
       img_savename = f"fla/{now_time}.png"
       Image.fromarray(results.ims[0]).save(img_savename)
-      a = saveex.saveex(img_savename,names,amounts)
+      a = saveImageData.saveex(img_savename,names,amounts)
       # return results
    return send_file("words01.json")
    # return a
@@ -67,7 +67,7 @@ def predict():
 @app.route('/recent', methods=['POST'])
 def recent():
    if request.method == "POST":
-      a=save9.save9()
+      a=saveImage9.save9()
    return a
 
 
