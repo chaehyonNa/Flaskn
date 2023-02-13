@@ -16,18 +16,18 @@ def saveImage9():
     cursor = db.cursor()
     a=[]
     cursor.execute('USE project01;')
-    sql2 =  "SELECT id FROM project01.images ORDER BY id desc LIMIT 9; "
+    sql2 =  "SELECT id FROM project01.image02 ORDER BY id desc LIMIT 9; "
     cursor.execute(sql2)
     num = cursor.fetchall()
     for i in num:
         
-        cursor.execute(f'SELECT * FROM images WHERE id={i[0]};')
+        cursor.execute(f'SELECT * FROM image02 WHERE id={i[0]};')
         value1 = cursor.fetchone()
         b = {
                 'id': value1[0],
                 'image_data': value1[1].decode('utf8'),
-                'date': value1[2],
-                'time': value1[3],
+                # 'date': value1[2],
+                # 'time': value1[3],
             }
         a.append(b)
     

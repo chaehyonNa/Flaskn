@@ -66,17 +66,17 @@ def save():
    b=saveSum.saveSum(names, amounts)
    return send_file("saveData.json")
 
-# @app.route('/graph', methods=['POST'])
-# def gragh():
-#    if request.method == "POST":
-#       a=saveSum.saveSum()
-#    return send_file("words03.json")
+@app.route('/main', methods=['POST'])
+def gragh():
+   if request.method == "POST":
+      a=saveSum.saveSum()
+   return send_file("saveData.json")
 
 # @app.route('/recent', methods=['POST'])
 # def recent():
 #    if request.method == "POST":
 #       a=saveImage9.saveImage9()
-#    return a
+#    return send_file("saveImage9.json")
 
 
 if __name__ == "__main__":

@@ -62,6 +62,21 @@ def saveSum(names,amounts):
             }
         a.append(b)
 
+    sql2 =  "SELECT id FROM project01.image02 ORDER BY id desc LIMIT 9; "
+    cursor.execute(sql2)
+    num = cursor.fetchall()
+    for i in num:
+        
+        cursor.execute(f'SELECT * FROM image02 WHERE id={i[0]};')
+        value1 = cursor.fetchone()
+        c = {
+                'id': value1[0],
+                'image_data': value1[1].decode('utf8'),
+                # 'date': value1[2],
+                # 'time': value1[3],
+            }
+        a.append(c)
+
     with open('saveData.json', 'w', encoding="utf-8") as make_file:
         a=json.dump(a,make_file, ensure_ascii=False,indent="\t")
     

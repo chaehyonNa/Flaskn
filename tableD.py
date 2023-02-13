@@ -3,7 +3,7 @@ import pymysql
 conn = pymysql.connect(host='localhost', user='root',
                         password='cogus123', db='project01', charset='utf8')
 
-sql = "DROP TABLE IF EXISTS impo01"
+sql = "DROP TABLE IF EXISTS image"
 
 with conn:
     with conn.cursor() as cur:

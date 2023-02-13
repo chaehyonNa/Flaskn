@@ -15,19 +15,19 @@ def saveData(data_path):
     cursor = db.cursor()
     data = data_path
     cursor.execute('USE project01;')
-    date = datetime.today().strftime("%Y/%m/%d")
-    time = datetime.today().strftime("%H:%M:%S")
+    # date = datetime.today().strftime("%Y/%m/%d")
+    # time = datetime.today().strftime("%H:%M:%S")
 
-    sql = "INSERT INTO images (image_data, date, time) VALUES(%s,%s,%s)"
-    cursor.execute(sql,(data, date, time))
+    sql = "INSERT INTO image02 (image_data) VALUES(%s)"
+    cursor.execute(sql,(data))
 
     a=[]
 
-    sql1 =  "SELECT id FROM project01.images ORDER BY id desc LIMIT 10; "
+    sql1 =  "SELECT id FROM project01.image02 ORDER BY id desc LIMIT 10; "
     cursor.execute(sql1)
     num1 = cursor.fetchall()
     if len(num1)>9:
-        sql="DELETE FROM images WHERE id = %s"
+        sql="DELETE FROM image02 WHERE id = %s"
         cursor.execute(sql,(str(num1[9][0])))
 
     db.commit()
