@@ -48,7 +48,7 @@ def predict():
       now_time = datetime.datetime.now().strftime(DATETIME_FORMAT)
       img_savename = f"fla/{now_time}.png"
       Image.fromarray(results.ims[0]).save(img_savename)
-      a = saveImageData.saveImageData(img_savename,names,amounts)
+      saveImageData.saveImageData(img_savename,names,amounts)
    return send_file("saveImageData.json")
 
 @app.route('/save', methods=['POST'])
@@ -62,14 +62,14 @@ def save():
       amounts.append(jfile[i]['amount'])
    jfile[0]['image_data']
 
-   a=saveData.saveData(image_data1)
-   b=saveSum.saveSum(names, amounts)
+   saveData.saveData(image_data1)
+   saveSum.saveSum(names, amounts)
    return send_file("saveData.json")
 
 @app.route('/main', methods=['POST'])
 def gragh():
    if request.method == "POST":
-      a=saveSum.saveSum()
+      saveSum.saveSum()
    return send_file("saveData.json")
 
 # @app.route('/recent', methods=['POST'])

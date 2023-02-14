@@ -61,7 +61,6 @@ def saveSum(names,amounts):
                 'protein': value2[5]
             }
         a.append(b)
-
     sql2 =  "SELECT id FROM project01.image02 ORDER BY id desc LIMIT 9; "
     cursor.execute(sql2)
     num = cursor.fetchall()
@@ -78,7 +77,7 @@ def saveSum(names,amounts):
         a.append(c)
 
     with open('saveData.json', 'w', encoding="utf-8") as make_file:
-        a=json.dump(a,make_file, ensure_ascii=False,indent="\t")
+        json.dump(a,make_file, ensure_ascii=False,indent="\t")
     
     sql2 =  "SELECT id FROM project01.impo ORDER BY id desc LIMIT 8; "
     cursor.execute(sql2)
