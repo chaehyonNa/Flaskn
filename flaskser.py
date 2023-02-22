@@ -61,7 +61,6 @@ def save():
       names.append(jfile[i]['name'])
       amounts.append(jfile[i]['amount'])
    jfile[0]['image_data']
-
    saveData.saveData(image_data1)
    saveSum.saveSum(names, amounts)
    return send_file("saveData.json")
@@ -84,6 +83,6 @@ if __name__ == "__main__":
     parser.add_argument("--port", default=5000, type=int, help="port number")
     args = parser.parse_args()
     
-    model = torch.hub.load('ultralytics/yolov5', 'custom', path='best.pt')
+    model = torch.hub.load('ultralytics/yolov5', 'custom', path='foodRecog.pt')
     model.eval()
     app.run(host="0.0.0.0", port=5000)  # debug=True causes Restarting with stat

@@ -29,16 +29,16 @@ def saveImageData(img_path,names,amounts):
     a.append(b)
     for i in range(len(names)):
         foodSL = names[i]
-        cursor.execute(f'SELECT * FROM food WHERE name="{foodSL}";')
+        cursor.execute(f'SELECT * FROM food1 WHERE name="{foodSL}";')
         value2 = cursor.fetchone()
         c = {
-            'id': value2[0],
+            # 'id': value2[0],
             'name': value2[1],
             'amount': int(amounts[i]),
-            'kacl': value2[2],
-            'carbo': value2[3],
-            'province': value2[4],
-            'protein': value2[5]
+            # 'kacl': value2[2],
+            # 'carbo': value2[3],
+            # 'province': value2[4],
+            # 'protein': value2[5]
         }
         a.append(c)
     with open('saveImageData.json', 'w', encoding="utf-8") as make_file:

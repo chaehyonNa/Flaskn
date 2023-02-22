@@ -23,12 +23,12 @@ def saveSum(names,amounts):
     protein=0
     for i in range(len(names)):
         foodSL = names[i]
-        cursor.execute(f'SELECT * FROM food WHERE name="{foodSL}";')
+        cursor.execute(f'SELECT * FROM food1 WHERE name="{foodSL}";')
         value2 = cursor.fetchone()
         kacl=value2[2]*int(amounts[i])+kacl
         carbo=value2[3]*int(amounts[i])+carbo
         province=value2[4]*int(amounts[i])+province
-        protein=+value2[5]*int(amounts[i])+protein
+        protein=value2[5]*int(amounts[i])+protein
 
     cursor.execute('SELECT * FROM project01.impo ORDER BY date desc LIMIT 1;')
     value1 = cursor.fetchone()
