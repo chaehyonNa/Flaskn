@@ -15,14 +15,10 @@ def saveData(data_path):
     cursor = db.cursor()
     data = data_path
     cursor.execute('USE project01;')
-    # date = datetime.today().strftime("%Y/%m/%d")
-    # time = datetime.today().strftime("%H:%M:%S")
 
     sql = "INSERT INTO image02 (image_data) VALUES(%s)"
     cursor.execute(sql,(data))
-
     a=[]
-
     sql1 =  "SELECT id FROM project01.image02 ORDER BY id desc LIMIT 10; "
     cursor.execute(sql1)
     num1 = cursor.fetchall()

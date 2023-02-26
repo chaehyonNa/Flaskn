@@ -5,9 +5,16 @@ conn = pymysql.connect(host='localhost', user='root',
 
 cursor = conn.cursor()
 
-sql = ''' CREATE TABLE image02 (
-    id  int auto_increment PRIMARY KEY,
-    image_data MEDIUMBLOB
+sql = ''' CREATE TABLE idimpo01 (
+    id varchar(50) PRIMARY KEY,
+    one varchar(50),
+    two varchar(50),
+    three varchar(50),
+    four varchar(50),
+    five varchar(50),
+    six varchar(50),
+    seven varchar(50),
+    sum int
 )
 '''
 

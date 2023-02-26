@@ -71,6 +71,12 @@ def gragh():
       saveSum.saveSum()
    return send_file("saveData.json")
 
+@app.route('/loadWeekData', methods=['GET'])
+def gragh():
+   if request.method == "GET":
+      saveSum.saveSum()
+   return send_file("saveData.json")
+
 # @app.route('/recent', methods=['POST'])
 # def recent():
 #    if request.method == "POST":
