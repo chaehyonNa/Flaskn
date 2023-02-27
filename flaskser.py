@@ -7,17 +7,19 @@ import saveImageData
 import saveImage9
 import saveData
 import saveSum
+import saveIdImpo
+import saveImage9
 import base64
 from io import BytesIO
 import json
-import jsonify
 import torch
-from flask import Flask, render_template, request, redirect, send_file
+from flask import Flask, render_template, request, redirect, send_file, jsonify
 from flask_cors import CORS
 from koreanLabel import change
 
 app = Flask(__name__)
-cors = CORS(app, resources={r"/*": {"origins": "*"}})
+# cors = CORS(app, resources={r"/*": {"origins": "*"}})
+CORS(app)
 DATETIME_FORMAT = "%Y-%m-%d_%H-%M-%S-%f"
 
 @app.route('/')
@@ -53,36 +55,58 @@ def predict():
 
 @app.route('/save', methods=['POST'])
 def save():
+   user="dnalsdl"
    jfile = request.get_json()
-   names=[]
-   amounts=[]
-   image_data1=jfile[0]['image_data']
-   for i in range(1,len(jfile)):
-      names.append(jfile[i]['name'])
-      amounts.append(jfile[i]['amount'])
-   jfile[0]['image_data']
-   saveData.saveData(image_data1)
-   saveSum.saveSum(names, amounts)
-   return send_file("saveData.json")
+   print(jfile)
+   # names=[]
+   # amounts=[]
+   # image_data1=jfile[0]['image_data']
+   # for i in range(1,len(jfile)):
+   #    names.append(jfile[i]['name'])
+   #    amounts.append(jfile[i]['amount'])
+   # jfile[0]['image_data']
 
-@app.route('/main', methods=['POST'])
-def gragh():
-   if request.method == "POST":
-      saveSum.saveSum()
+   # saveImage9.saveImage(image_data1, user)
+
+   # # saveData.saveData(image_data1)
+   # # saveSum.saveSum(names, amounts)
    return send_file("saveData.json")
 
 @app.route('/loadWeekData', methods=['GET'])
 def gragh():
-   if request.method == "GET":
-      saveSum.saveSum()
+   # if request.method == "GET":
+   # saveIdImpo.saveIdImpo(names,amounts,user)
    return send_file("saveData.json")
 
-# @app.route('/recent', methods=['POST'])
-# def recent():
-#    if request.method == "POST":
-#       a=saveImage9.saveImage9()
-#    return send_file("saveImage9.json")
+@app.route('/loadUserData', methods=['GET'])
+def loadUserData():
 
+   return jsonify({
+      "name": "윤종식",
+      "height": 170,
+      "weight": 100,
+      "kcal": 3000,
+      "carbo": 200,
+      "province": 200,
+      "protein": 200
+    })
+
+@app.route('/login', methods=['POST'])
+def login():
+   if request.method == "POST":
+      # file = request.files["login"]
+      jfile = request.get_json()
+   return jsonify({
+      "status" : "success"
+    })
+
+@app.route('/loadNineImages', methods=['GET'])
+def load9Images():
+
+   # jfile = request.args.to_dict()
+   # user=jfile['id']
+   # saveImage9.saveImage(user)
+   return send_file("saveImage9.json")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Flask app exposing yolov5 models")
