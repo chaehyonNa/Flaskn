@@ -5,11 +5,12 @@ conn = pymysql.connect(host='localhost', user='root',
 
 cursor = conn.cursor()
 
-sql = ''' CREATE TABLE idimage9 (
-    id varchar(50) primary key,
+sql = ''' CREATE TABLE idimage901 (
+
     user varchar(50),
     date varchar(50),
-    image_data MEDIUMBLOB
+    image_data longblob
+
 )
 '''
 

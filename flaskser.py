@@ -5,10 +5,14 @@ from PIL import Image
 import datetime
 import saveImageData
 import saveImage9
-import saveData
+import loadUserData
+import userGraghJson
+import persentData
+import upUserData
 import saveSum
 import saveIdImpo
 import saveImage9
+import join
 import base64
 from io import BytesIO
 import json
@@ -24,7 +28,7 @@ DATETIME_FORMAT = "%Y-%m-%d_%H-%M-%S-%f"
 
 @app.route('/')
 def web():
-    return "main page"
+   return "main page"
 
 @app.route('/predict', methods=['POST'])
 def predict():
@@ -55,58 +59,80 @@ def predict():
 
 @app.route('/save', methods=['POST'])
 def save():
-   user="dnalsdl"
    jfile = request.get_json()
-   print(jfile)
-   # names=[]
-   # amounts=[]
-   # image_data1=jfile[0]['image_data']
-   # for i in range(1,len(jfile)):
-   #    names.append(jfile[i]['name'])
-   #    amounts.append(jfile[i]['amount'])
-   # jfile[0]['image_data']
+   user=request.args.to_dict()['id']
+   names=[]
+   amounts=[]
+   image_data1=jfile['image_data']
 
-   # saveImage9.saveImage(image_data1, user)
+   for i in range(0,len(jfile['foodData'])):
+      names.append(jfile['foodData'][i]['name'])
+      amounts.append(jfile['foodData'][i]['amount'])
 
-   # # saveData.saveData(image_data1)
-   # # saveSum.saveSum(names, amounts)
-   return send_file("saveData.json")
+   # saveData.saveData(image_data1)
+   # saveSum.saveSum(names, amounts)
+   saveImage9.saveImage(user, image_data1)
+   saveIdImpo.saveIdImpo(user, names, amounts)
+   return 'True'
 
-@app.route('/loadWeekData', methods=['GET'])
-def gragh():
-   # if request.method == "GET":
-   # saveIdImpo.saveIdImpo(names,amounts,user)
-   return send_file("saveData.json")
+@app.route('/weekData2/<id>', methods=['GET'])
+def gragh(id):
+   if request.method == "GET":
+      userGraghJson.userGraghJson(id)
+      return send_file("saveUserData.json")
+   
+@app.route('/persentData/<id>', methods=['GET'])
+def persent(id):
+   if request.method == "GET":
+      persentData.persentData(id)
+      return send_file("persentData.json")
 
-@app.route('/loadUserData', methods=['GET'])
-def loadUserData():
 
-   return jsonify({
-      "name": "윤종식",
-      "height": 170,
-      "weight": 100,
-      "kcal": 3000,
-      "carbo": 200,
-      "province": 200,
-      "protein": 200
-    })
+@app.route('/load9Images/<id>', methods=['GET'])
+def load9Images(id):
+   if request.method == "GET":
+      saveImage9.loadImage(id)
+      return send_file("saveImage9.json")
 
-@app.route('/login', methods=['POST'])
-def login():
+@app.route('/userData2/<id>', methods=['GET'])
+def UserData(id):
+   if request.method == "GET":
+      loadUserData.loadUserData(id)
+      return send_file("test.json")
+   
+@app.route('/updateUserData/<id>', methods=['POST'])
+def updateUserData(id):
    if request.method == "POST":
-      # file = request.files["login"]
       jfile = request.get_json()
-   return jsonify({
-      "status" : "success"
-    })
+      id=jfile['id']
+      name=jfile['name']
+      height=jfile['height']
+      weight=jfile['weight']
+      kcal=jfile['kcal']
+      carbo=jfile['carbo']
+      protein=jfile['protein']
+      fat=jfile['fat']
+      a=upUserData.upUserData(id, name, height, weight, kcal, carbo, protein, fat)
+      return jsonify({
+         "status" : a
+      })
 
-@app.route('/loadNineImages', methods=['GET'])
-def load9Images():
-
-   # jfile = request.args.to_dict()
-   # user=jfile['id']
-   # saveImage9.saveImage(user)
-   return send_file("saveImage9.json")
+@app.route('/join', methods=['POST'])
+def join1():
+   if request.method == "POST":
+      jfile = request.get_json()
+      id=jfile['id']
+      name=jfile['name']
+      height=jfile['height']
+      weight=jfile['weight']
+      kcal=jfile['kcal']
+      carbo=jfile['carbo']
+      protein=jfile['protein']
+      fat=jfile['fat']
+      a=join.join(id, name, height, weight, kcal, carbo, protein, fat)
+      return jsonify({
+         "status" : a
+      })
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Flask app exposing yolov5 models")
